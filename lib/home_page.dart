@@ -1,68 +1,166 @@
 import 'package:flutter/material.dart';
-import 'product_detail_page.dart';
+import 'package:flutter_application/componennt/product/ad_slider.dart';
+import 'componennt/product/product_detail_page.dart';
+import 'componennt/product/product_card.dart';
+import 'componennt/data/product_data.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    // Sample list of products
-    final List<Map<String, dynamic>> products = [
-      {
-        'name': 'Beauty Set by Irvie',
-        'price': 'Rp142.400',
-        'oldPrice': 'Rp178.000',
-        'image': 'assets/img/detail_produk.png',
-        'stock': 'Stok: 99+ pcs',
-      },
-      {
-        'name': 'Gadget X',
-        'price': 'Rp1.500.000',
-        'oldPrice': 'Rp1.750.000',
-        'image': 'assets/img/detail_produk.png',
-        'stock': 'Stok: 50 pcs',
-      },
-      {
-        'name': 'Smartwatch Z',
-        'price': 'Rp850.000',
-        'oldPrice': 'Rp1.000.000',
-        'image': 'assets/img/detail_produk.png',
-        'stock': 'Stok: 10 pcs',
-      },
-    ];
+    // Get the screen size
+    Size screenSize = MediaQuery.of(context).size;
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text(
-          'Produk Terbaru',
-          style: TextStyle(color: Colors.black),
+        backgroundColor: const Color(0xFF629584),
+        elevation: 4,
+        title: const Row(
+          children: [
+            Text(
+              'Produk Terbaru',
+              style: TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
+                fontSize: 25,
+              ),
+            ),
+            Spacer(),
+          ],
         ),
-        backgroundColor: Colors.white,
-        elevation: 2,
         actions: [
           IconButton(
-            icon: const Icon(Icons.shopping_cart_outlined, color: Colors.black),
-            onPressed: () {
-              // Add cart functionality here
-            },
+            icon: const Icon(Icons.shopping_cart_outlined),
+            color: Colors.white,
+            onPressed: () {},
           ),
         ],
       ),
-      body: Padding(
+      body: Container(
+        color: const Color(0xFFEFEFEF),
         padding: const EdgeInsets.all(16.0),
-        child: GridView.builder(
-          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 2, // 2 products per row
+        child: LayoutBuilder(
+          builder: (context, constraints) {
+            // Determine layout based on screen width
+            if (constraints.maxWidth < 600) {
+              // Mobile layout
+              return SingleChildScrollView(
+                child: Column(
+                  children: [
+                    const AdSlider(),
+                    _buildRecommendations(context),
+                    _buildProductGrid(context, 2), // 2 columns for mobile
+                  ],
+                ),
+              );
+            } else if (constraints.maxWidth < 900) {
+              // Tablet layout
+              return SingleChildScrollView(
+                child: Column(
+                  children: [
+                    const AdSlider(),
+                    _buildRecommendations(context),
+                    _buildProductGrid(context, 3), // 3 columns for tablet
+                  ],
+                ),
+              );
+            } else {
+              // Desktop layout
+              return SingleChildScrollView(
+                child: Column(
+                  children: [
+                    const AdSlider(),
+                    _buildRecommendations(context),
+                    _buildProductGrid(context, 4), // 4 columns for desktop
+                  ],
+                ),
+              );
+            }
+          },
+        ),
+      ),
+    );
+  }
+
+  Widget _buildRecommendations(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const Align(
+          alignment: Alignment.centerLeft,
+          child: Text(
+            'Rekomendasi Produk',
+            style: TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ),
+        const SizedBox(height: 8.0),
+        SizedBox(
+          height: 200,
+          child: ListView.builder(
+            scrollDirection: Axis.horizontal,
+            itemCount: products.length,
+            itemBuilder: (context, index) {
+              final product = products[index];
+              return Padding(
+                padding: const EdgeInsets.only(right: 16.0),
+                child: GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const ProductDetailPage(),
+                      ),
+                    );
+                  },
+                  child: HorizontalProductCard(
+                    name: product['name'],
+                    price: product['price'],
+                    oldPrice: product['oldPrice'],
+                    imageUrl: product['image'],
+                    stock: product['stock'],
+                  ),
+                ),
+              );
+            },
+          ),
+        ),
+        const SizedBox(height: 30),
+      ],
+    );
+  }
+
+  Widget _buildProductGrid(BuildContext context, int columns) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const Align(
+          alignment: Alignment.centerLeft,
+          child: Text(
+            'Produk',
+            style: TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ),
+        GridView.builder(
+          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: columns,
             crossAxisSpacing: 16.0,
             mainAxisSpacing: 16.0,
             childAspectRatio: 0.7,
           ),
           itemCount: products.length,
+          shrinkWrap: true,
+          physics: const NeverScrollableScrollPhysics(),
           itemBuilder: (context, index) {
             final product = products[index];
             return GestureDetector(
               onTap: () {
-                // Navigate to product detail
                 Navigator.push(
                   context,
                   MaterialPageRoute(
@@ -80,99 +178,8 @@ class HomePage extends StatelessWidget {
             );
           },
         ),
-      ),
-    );
-  }
-}
-
-// Custom widget for displaying a product card
-class ProductCard extends StatelessWidget {
-  final String name;
-  final String price;
-  final String oldPrice;
-  final String imageUrl;
-  final String stock;
-
-  const ProductCard({
-    Key? key,
-    required this.name,
-    required this.price,
-    required this.oldPrice,
-    required this.imageUrl,
-    required this.stock,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(16.0),
-        color: Colors.white,
-        boxShadow: const [
-          BoxShadow(
-            color: Colors.black12,
-            blurRadius: 6.0,
-            offset: Offset(0, 2),
-          ),
-        ],
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          // Product image
-          ClipRRect(
-            borderRadius: const BorderRadius.only(
-              topLeft: Radius.circular(16.0),
-              topRight: Radius.circular(16.0),
-            ),
-            child: Image.asset(
-              imageUrl,
-              height: 150,
-              width: double.infinity,
-              fit: BoxFit.cover,
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  name,
-                  style: const TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                const SizedBox(height: 4.0),
-                Text(
-                  price,
-                  style: const TextStyle(
-                    fontSize: 16,
-                    color: Colors.black,
-                  ),
-                ),
-                Text(
-                  oldPrice,
-                  style: const TextStyle(
-                    fontSize: 14,
-                    decoration: TextDecoration.lineThrough,
-                    color: Colors.grey,
-                  ),
-                ),
-                const SizedBox(height: 4.0),
-                Text(
-                  stock,
-                  style: const TextStyle(
-                    fontSize: 12,
-                    color: Colors.grey,
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
+        const SizedBox(height: 50),
+      ],
     );
   }
 }

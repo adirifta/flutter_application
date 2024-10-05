@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'onboarding_data.dart';
+import '../data/onboarding_data.dart';
 
 class OnboardingPage extends StatelessWidget {
   final OnboardingData data;

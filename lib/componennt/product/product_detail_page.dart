@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'componennt/color_option.dart';
-import 'componennt/product_list.dart';
+import '../color_option.dart';
+import '../product_list.dart';
 
 class ProductDetailPage extends StatelessWidget {
   const ProductDetailPage({super.key});
@@ -20,8 +20,7 @@ class ProductDetailPage extends StatelessWidget {
         actions: [
           IconButton(
             icon: const Icon(Icons.shopping_cart_outlined, color: Colors.black),
-            onPressed: () {
-            },
+            onPressed: () {},
           ),
         ],
       ),
@@ -65,8 +64,7 @@ class ProductDetailPage extends StatelessWidget {
                   Container(
                     padding: const EdgeInsets.symmetric(
                         vertical: 4.0, horizontal: 8.0),
-                    color: const Color.fromARGB(255, 255, 204,
-                        73),
+                    color: const Color.fromARGB(255, 255, 204, 73),
                     child: RichText(
                       text: const TextSpan(
                         children: [

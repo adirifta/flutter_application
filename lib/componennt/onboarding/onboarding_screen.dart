@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'onboarding_page.dart';
-import 'onboarding_data.dart';
+import '../data/onboarding_data.dart';
 // ignore: unused_import
-import 'product_detail_page.dart';
+import '../product/product_detail_page.dart';
 
 class OnboardingScreen extends StatefulWidget {
   const OnboardingScreen({super.key});
@@ -19,20 +19,21 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   final List<OnboardingData> onboardingData = [
     OnboardingData(
       imagePath: 'assets/img/onboarding_1.jpg',
-      title: 'Gratis Materi Belajar Menjadi Seller Handal',
+      title: 'Gratis Tips Menjadi Penjual Sepatu Sukses',
       subtitle:
-          'Nggak bisa jualan? Jangan khawatir, Tokomare akan membimbing kamu hingga menjadi seller langsung dari ahlinya.',
+          'Belum bisa jualan sepatu? Jangan khawatir, kami akan membimbingmu untuk menjadi penjual sepatu handal dengan panduan dari para ahli.',
     ),
     OnboardingData(
-      imagePath: 'assets/img/onboarding_2.png',
-      title: 'Ribuan Produk dengan Kualitas Terbaik',
+      imagePath: 'assets/img/onboarding_2.jpg',
+      title: 'Koleksi Sepatu Berkualitas Tinggi',
       subtitle:
-          'Tokomare menyediakan ribuan produk dengan kualitas terbaik dari seller terpercaya.',
+          'Kami menyediakan berbagai jenis sepatu berkualitas dari penjual terpercaya.',
     ),
     OnboardingData(
-      imagePath: 'assets/img/onboarding_3.png',
-      title: 'Toko Online Unik Untuk Kamu Jualan',
-      subtitle: 'Sudut-sudut unik dan toko online profesional siap pakai!',
+      imagePath: 'assets/img/onboarding_3.jpg',
+      title: 'Toko Sepatu Online Unik untuk Bisnismu',
+      subtitle:
+          'Toko sepatu online dengan desain profesional siap digunakan untuk jualan!',
     ),
   ];
 
@@ -90,8 +91,8 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                   width: currentIndex == index ? 24 : 8,
                   decoration: BoxDecoration(
                     color: currentIndex == index
-                        ? const Color.fromARGB(255, 255, 255, 255)
-                        : Colors.grey,
+                        ? const Color(0xff243642)
+                        : const Color.fromARGB(255, 153, 153, 153),
                     borderRadius: BorderRadius.circular(4),
                   ),
                 );
@@ -115,7 +116,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
               },
               style: ElevatedButton.styleFrom(
                 foregroundColor: Colors.white,
-                backgroundColor: Colors.black,
+                backgroundColor: const Color(0xff387478),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10),
                 ),
