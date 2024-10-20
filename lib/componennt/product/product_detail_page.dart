@@ -1,25 +1,36 @@
 import 'package:flutter/material.dart';
-import '../color_option.dart';
-import '../product_list.dart';
+import 'package:flutter_application/componennt/data/product_data.dart';
+import 'product_list.dart';
 
 class ProductDetailPage extends StatelessWidget {
-  const ProductDetailPage({super.key});
+  final int productId;
+
+  const ProductDetailPage({super.key, required this.productId});
 
   @override
   Widget build(BuildContext context) {
+    final product = products.firstWhere((prod) => prod['id'] == productId);
+
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.white,
+        backgroundColor: const Color(0xFF629584),
         elevation: 2,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: Colors.black),
+          icon: const Icon(Icons.arrow_back, color: Colors.white),
           onPressed: () {
             Navigator.pop(context);
           },
         ),
+        title: const Text(
+          'Detail Produk',
+          style: TextStyle(
+            color: Colors.white,
+            fontSize: 20,
+          ),
+        ),
         actions: [
           IconButton(
-            icon: const Icon(Icons.shopping_cart_outlined, color: Colors.black),
+            icon: const Icon(Icons.shopping_cart_outlined, color: Colors.white),
             onPressed: () {},
           ),
         ],
@@ -32,16 +43,18 @@ class ProductDetailPage extends StatelessWidget {
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 16.0),
               child: ClipRRect(
+                borderRadius: BorderRadius.circular(
+                    10),
                 child: Image.asset(
-                  'assets/img/detail_produk.png',
+                  product['image'],
                   fit: BoxFit.cover,
-                  height: 350,
+                  height: MediaQuery.of(context).size.width < 600
+                      ? 350
+                      : 400, // Responsive height
                   width: double.infinity,
                 ),
               ),
             ),
-
-            // Product Details
             Container(
               decoration: const BoxDecoration(
                 borderRadius: BorderRadius.only(
@@ -66,18 +79,18 @@ class ProductDetailPage extends StatelessWidget {
                         vertical: 4.0, horizontal: 8.0),
                     color: const Color.fromARGB(255, 255, 204, 73),
                     child: RichText(
-                      text: const TextSpan(
+                      text: TextSpan(
                         children: [
                           TextSpan(
-                            text: 'NEW ',
-                            style: TextStyle(
+                            text: '${product['status']} ',
+                            style: const TextStyle(
                               color: Colors.black,
                               fontWeight: FontWeight.bold,
                               fontSize: 16,
                             ),
                           ),
-                          TextSpan(
-                            text: 'Product Baru',
+                          const TextSpan(
+                            text: 'Product',
                             style: TextStyle(
                               color: Colors.black,
                               fontWeight: FontWeight.normal,
@@ -89,161 +102,104 @@ class ProductDetailPage extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(height: 8.0),
-                  const Text(
-                    'Beauty Set by Irvie',
-                    style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                  Text(
+                    product['name'],
+                    style: const TextStyle(
+                        fontSize: 24, fontWeight: FontWeight.bold),
                   ),
-                  const Text(
-                    'Irvie group official',
-                    style: TextStyle(color: Colors.grey, fontSize: 14),
+                  Text(
+                    product['brand'],
+                    style: const TextStyle(color: Colors.grey, fontSize: 14),
                   ),
                   const SizedBox(height: 16.0),
-
-                  // Pricing
-                  const Row(
+                  Row(
                     children: [
                       Text(
-                        'Rp178.000',
-                        style: TextStyle(
+                        product['oldPrice'],
+                        style: const TextStyle(
                           fontSize: 18,
                           decoration: TextDecoration.lineThrough,
                           color: Colors.grey,
                         ),
                       ),
-                      SizedBox(width: 8.0),
+                      const SizedBox(width: 8.0),
                       Text(
-                        'Rp142.400',
-                        style: TextStyle(fontSize: 18, color: Colors.black),
+                        product['price'],
+                        style:
+                            const TextStyle(fontSize: 18, color: Colors.black),
                       ),
                     ],
                   ),
                   const SizedBox(height: 8.0),
                   Text(
-                    'Komisi Rp35.600 (20%)',
-                    style: TextStyle(
-                        color: Colors.green[700],
-                        fontWeight: FontWeight.bold,
-                        fontSize: 16),
+                    product['stock'],
+                    style: const TextStyle(color: Colors.grey, fontSize: 14),
                   ),
                   const SizedBox(height: 16.0),
-
-                  // Size Options
-                  const Text(
-                    'Ukuran',
-                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                  ),
-                  const SizedBox(height: 4.0),
-                  Row(
-                    children: [
-                      ChoiceChip(
-                        label: const Text('Paket 1'),
-                        selected: true,
-                        onSelected: (bool selected) {},
-                      ),
-                      const SizedBox(width: 8.0),
-                      ChoiceChip(
-                        label: const Text('Paket 2'),
-                        selected: false,
-                        onSelected: (bool selected) {},
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 16.0),
-
-                  // Color Options
-                  const Text(
-                    'Warna',
-                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                  ),
-                  const SizedBox(height: 4.0),
-                  const Row(
-                    children: [
-                      ColorOption(Colors.brown),
-                      SizedBox(width: 8.0),
-                      ColorOption(Colors.grey),
-                    ],
-                  ),
-                  const SizedBox(height: 16.0),
-
-                  // Stock Info
-                  const Text(
-                    'Stok: 99+ pcs',
-                    style: TextStyle(color: Colors.grey, fontSize: 14),
-                  ),
-                  const SizedBox(height: 16.0),
-
-                  // Product Description
                   const Text(
                     'Deskripsi',
                     style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                   ),
                   const SizedBox(height: 8.0),
-                  const Text(
-                    '*New Material*\nTersbuat dari bahan 100% Katun Linen yang membuat nyaman dipakai.\nMenggunakan fit Relaxed Fit.',
-                    style: TextStyle(fontSize: 16),
-                  ),
-                  const SizedBox(height: 8.0),
-                  const Text(
-                    'SIZE CHART RELAXED SHIRT...',
-                    style: TextStyle(color: Colors.blue, fontSize: 16),
+                  Text(
+                    product['description'],
+                    style: const TextStyle(fontSize: 16),
                   ),
                   const SizedBox(height: 16.0),
-
-                  // Other Products Section
                   const Text(
                     'Produk lain dari Irvie group official',
                     style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                   ),
                   const SizedBox(height: 16.0),
-                  const ProductList(),
+                  ProductList(productId: productId),
+                  const SizedBox(height: 16.0),
                 ],
               ),
             ),
           ],
         ),
       ),
-      bottomNavigationBar: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Row(
-          children: [
-            Expanded(
-              flex: 2,
-              child: ElevatedButton(
-                onPressed: () {
-                  // Implement add to store functionality
-                },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.white,
-                  side: const BorderSide(color: Colors.black, width: 1.5),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10),
+      bottomNavigationBar: Container(
+        color: const Color(0xFFE2F1E7),
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Row(
+            children: [
+              Expanded(
+                flex: 2,
+                child: ElevatedButton(
+                  onPressed: () {},
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.white,
+                    side:
+                        const BorderSide(color: Color(0xFF629584), width: 1.5),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    padding: const EdgeInsets.symmetric(vertical: 12),
                   ),
-                  padding: const EdgeInsets.symmetric(vertical: 12),
-                ),
-                child: const Text(
-                  'Tambahkan ke toko',
-                  style: TextStyle(color: Colors.black),
+                  child: const Text(
+                    'Tambahkan ke toko',
+                    style: TextStyle(color: Colors.black),
+                  ),
                 ),
               ),
-            ),
-            const SizedBox(width: 16.0),
-            Expanded(
-              child: ElevatedButton(
-                onPressed: () {
-                  // Implement add to cart functionality
-                },
-                // ignore: sort_child_properties_last
-                child: const Icon(Icons.shopping_cart, color: Colors.white),
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color.fromARGB(255, 5, 5, 5),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10),
+              const SizedBox(width: 16.0),
+              Expanded(
+                child: ElevatedButton(
+                  onPressed: () {},
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color(0xFF629584),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    padding: const EdgeInsets.symmetric(vertical: 12),
                   ),
-                  padding: const EdgeInsets.symmetric(vertical: 12),
+                  child: const Icon(Icons.shopping_cart, color: Colors.white),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

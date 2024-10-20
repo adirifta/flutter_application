@@ -110,7 +110,7 @@ class HorizontalProductCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 150, // Set a fixed width for horizontal cards
+      width: 150,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(16.0),
         color: Colors.white,

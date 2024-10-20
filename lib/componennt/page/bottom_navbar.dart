@@ -1,4 +1,3 @@
-// bottom_navbar.dart
 import 'package:flutter/material.dart';
 import 'package:flutter_application/componennt/page/home_page.dart';
 import 'package:flutter_application/componennt/page/riwayat_page.dart';

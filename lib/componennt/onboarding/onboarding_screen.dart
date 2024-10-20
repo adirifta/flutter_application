@@ -75,7 +75,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                 right: 16,
                 child: TextButton(
                   onPressed: () {
-                    Navigator.pushReplacementNamed(context, '/homepage');
+                    Navigator.pushReplacementNamed(context, '/bottomNavbar');
                   },
                   style: TextButton.styleFrom(
                     foregroundColor: Colors.black,
@@ -141,6 +141,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                         currentIndex == onboardingData.length - 1
                             ? 'Mulai'
                             : 'Selanjutnya',
+                        style: const TextStyle(fontSize: 18),
                       ),
                     ),
                   ),

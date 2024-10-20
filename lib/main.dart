@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application/componennt/page/bottom_navbar.dart';
 import 'package:flutter_application/componennt/page/home_page.dart';
 import 'componennt/onboarding/onboarding_screen.dart';
-import 'componennt/product/product_detail_page.dart';
 import 'splash_screen.dart';
 
 void main() {
@@ -20,7 +19,6 @@ class MyApp extends StatelessWidget {
       routes: {
         '/onboarding': (context) => const OnboardingScreen(),
         '/homepage': (context) => const HomePage(),
-        '/productDetail': (context) => const ProductDetailPage(),
         '/bottomNavbar': (context) => const BottomNavbar(),
       },
     );
