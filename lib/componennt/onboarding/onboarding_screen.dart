@@ -46,21 +46,19 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
     return Scaffold(
       body: Stack(
         children: [
-          Expanded(
-            child: PageView.builder(
-              controller: _pageController,
-              itemCount: onboardingData.length,
-              onPageChanged: (index) {
-                setState(() {
-                  currentIndex = index;
-                });
-              },
-              itemBuilder: (context, index) {
-                return OnboardingPage(
-                  data: onboardingData[index],
-                );
-              },
-            ),
+          PageView.builder(
+            controller: _pageController,
+            itemCount: onboardingData.length,
+            onPageChanged: (index) {
+              setState(() {
+                currentIndex = index;
+              });
+            },
+            itemBuilder: (context, index) {
+              return OnboardingPage(
+                data: onboardingData[index],
+              );
+            },
           ),
           Positioned(
             top: MediaQuery.of(context).size.height * 0.05,
