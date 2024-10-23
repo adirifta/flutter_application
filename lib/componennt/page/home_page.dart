@@ -18,6 +18,7 @@ class HomePage extends StatelessWidget {
       ),
     );
 
+    // ignore: unused_local_variable
     Size screenSize = MediaQuery.of(context).size;
 
     return Scaffold(
@@ -28,19 +29,14 @@ class HomePage extends StatelessWidget {
             _buildCustomHeader(),
             const SizedBox(height: 10),
             Expanded(
+              flex: 1,
               child: Container(
                 padding: const EdgeInsets.all(16.0),
                 child: SingleChildScrollView(
                   child: Column(
                     children: [
-                      SizedBox(
-                        height: screenSize.width <
-                                600 // Assuming 600px is a threshold for mobile
-                            ? screenSize.height * 0.25 // Mobile
-                            : screenSize.height * 0.89, // Browser
-                        child: const AdSlider(),
-                      ),
-                      const SizedBox(height: 10), // Added some spacing
+                      const AdSlider(),
+                      const SizedBox(height: 10),
                       CategoryList(),
                       _buildRecommendations(context),
                       _buildProductGrid(context),

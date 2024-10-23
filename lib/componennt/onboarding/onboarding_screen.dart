@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'onboarding_page.dart';
 import '../data/onboarding_data.dart';
-// ignore: unused_import
-import '../product/product_detail_page.dart';
 
 class OnboardingScreen extends StatefulWidget {
   const OnboardingScreen({super.key});
@@ -45,111 +43,113 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // ignore: unused_local_variable
-    bool isWideScreen = MediaQuery.of(context).size.width > 800;
-    // ignore: unused_local_variable
-    var screenWidth = MediaQuery.of(context).size.width;
-
     return Scaffold(
-      body: LayoutBuilder(
-        builder: (context, constraints) {
-          bool isWideScreen = constraints.maxWidth > 600;
-          return Stack(
-            children: [
-              PageView.builder(
-                controller: _pageController,
-                itemCount: onboardingData.length,
-                onPageChanged: (index) {
-                  setState(() {
-                    currentIndex = index;
-                  });
-                },
-                itemBuilder: (context, index) {
-                  return OnboardingPage(
-                    data: onboardingData[index],
-                  );
-                },
+      body: Stack(
+        children: [
+          Expanded(
+            child: PageView.builder(
+              controller: _pageController,
+              itemCount: onboardingData.length,
+              onPageChanged: (index) {
+                setState(() {
+                  currentIndex = index;
+                });
+              },
+              itemBuilder: (context, index) {
+                return OnboardingPage(
+                  data: onboardingData[index],
+                );
+              },
+            ),
+          ),
+          Positioned(
+            top: MediaQuery.of(context).size.height * 0.05,
+            right: 16,
+            child: TextButton(
+              onPressed: () {
+                Navigator.pushReplacementNamed(context, '/bottomNavbar');
+              },
+              style: TextButton.styleFrom(
+                foregroundColor: Colors.black,
               ),
-              Positioned(
-                top: 50,
-                right: 16,
-                child: TextButton(
-                  onPressed: () {
-                    Navigator.pushReplacementNamed(context, '/bottomNavbar');
-                  },
-                  style: TextButton.styleFrom(
-                    foregroundColor: Colors.black,
-                  ),
-                  child: const Text(
-                    'Lewati',
-                  ),
-                ),
-              ),
-              Positioned(
-                bottom: isWideScreen ? 60 : 300,
-                left: isWideScreen ? 190 : 0,
-                right: 0,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: List.generate(onboardingData.length, (index) {
-                    return AnimatedContainer(
-                      duration: const Duration(milliseconds: 300),
-                      margin: const EdgeInsets.symmetric(horizontal: 4),
-                      height: 8,
-                      width: currentIndex == index ? 24 : 8,
-                      decoration: BoxDecoration(
-                        color: currentIndex == index
-                            ? const Color(0xff243642)
-                            : const Color.fromARGB(255, 153, 153, 153),
-                        borderRadius: BorderRadius.circular(4),
-                      ),
-                    );
-                  }),
-                ),
-              ),
-              Positioned(
-                bottom: 50,
-                left: isWideScreen ? null : 16,
-                right: isWideScreen ? 50 : 16,
-                child: Align(
-                  alignment:
-                      isWideScreen ? Alignment.centerRight : Alignment.center,
-                  child: SizedBox(
-                    width: isWideScreen ? 200 : null,
-                    child: ElevatedButton(
-                      onPressed: () {
-                        if (currentIndex == onboardingData.length - 1) {
-                          Navigator.pushReplacementNamed(
-                              context, '/bottomNavbar');
-                        } else {
-                          _pageController.nextPage(
-                            duration: const Duration(milliseconds: 300),
-                            curve: Curves.easeIn,
-                          );
-                        }
-                      },
-                      style: ElevatedButton.styleFrom(
-                        foregroundColor: Colors.white,
-                        backgroundColor: const Color(0xff387478),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        minimumSize:
-                            Size(isWideScreen ? 200 : double.infinity, 50),
-                      ),
-                      child: Text(
-                        currentIndex == onboardingData.length - 1
-                            ? 'Mulai'
-                            : 'Selanjutnya',
-                        style: const TextStyle(fontSize: 18),
-                      ),
+              child: Container(
+                decoration: BoxDecoration(
+                  boxShadow: [
+                    BoxShadow(
+                      color: const Color.fromARGB(255, 255, 255, 255)
+                          .withOpacity(0.6),
+                      blurRadius: 9.0,
+                      offset: const Offset(2, 2),
                     ),
+                  ],
+                ),
+                child: const Text(
+                  'Lewati',
+                  style: TextStyle(
+                    fontSize: 15,
                   ),
                 ),
               ),
-            ],
-          );
-        },
+            ),
+          ),
+          Positioned(
+            bottom: MediaQuery.of(context).size.height * 0.1,
+            top: 240,
+            left: 0,
+            right: 0,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: List.generate(onboardingData.length, (index) {
+                return AnimatedContainer(
+                  duration: const Duration(milliseconds: 300),
+                  margin: const EdgeInsets.symmetric(horizontal: 4),
+                  height: 8,
+                  width: currentIndex == index ? 24 : 8,
+                  decoration: BoxDecoration(
+                    color: currentIndex == index
+                        ? const Color(0xff243642)
+                        : const Color.fromARGB(255, 153, 153, 153),
+                    borderRadius: BorderRadius.circular(4),
+                  ),
+                );
+              }),
+            ),
+          ),
+          Positioned(
+            bottom: MediaQuery.of(context).size.height * 0.05,
+            left: 16,
+            right: 16,
+            child: Align(
+              alignment: Alignment.center,
+              child: ElevatedButton(
+                onPressed: () {
+                  if (currentIndex == onboardingData.length - 1) {
+                    Navigator.pushReplacementNamed(context, '/bottomNavbar');
+                  } else {
+                    _pageController.nextPage(
+                      duration: const Duration(milliseconds: 300),
+                      curve: Curves.easeIn,
+                    );
+                  }
+                },
+                style: ElevatedButton.styleFrom(
+                  foregroundColor: Colors.white,
+                  backgroundColor: const Color(0xff387478),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  minimumSize: const Size(double.infinity, 50),
+                ),
+                child: Text(
+                  currentIndex == onboardingData.length - 1
+                      ? 'Mulai'
+                      : 'Selanjutnya',
+                  style: const TextStyle(fontSize: 18),
+                ),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
